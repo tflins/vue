@@ -13,9 +13,11 @@ import { extend, mergeOptions, formatComponentName } from '../util/index'
 let uid = 0
 
 export function initMixin (Vue: Class<Component>) {
+  // vue 构造函数的初始化操作
   Vue.prototype._init = function (options?: Object) {
     const vm: Component = this
     // a uid
+    // 每个组件都有一个自增的 uid
     vm._uid = uid++
 
     let startTag, endTag
@@ -49,13 +51,19 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+    // 一系列的初始化操作
     initLifecycle(vm)
     initEvents(vm)
     initRender(vm)
+
+    // 触发 beforeCreate 钩子，尚未初始化数据
     callHook(vm, 'beforeCreate')
     initInjections(vm) // resolve injections before data/props
+    // 初始化状态 响应式对象主要在这里处理
     initState(vm)
     initProvide(vm) // resolve provide after data/props
+
+    // created 钩子，说明上述的操作已执行完成
     callHook(vm, 'created')
 
     /* istanbul ignore if */
