@@ -114,3 +114,5 @@ export function initMixin (Vue: Class<Component>) {
   }
 }
 ```
+
+在 `Vue.protoype._init` 中，主要做了：合并配置项、初始化生命周期、初始化事件中心、初始化渲染、初始化状态等，最终调用 `$mount` 方法挂载 vm。
